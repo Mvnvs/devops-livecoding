@@ -28,7 +28,11 @@ jobs:
       # Build and test with Maven
       - name: Build and Test with Maven
         working-directory: simple-api
-        run: mvn clean verify
+        run: mvn -B verify sonar:sonar \
+          -Dsonar.projectKey=devops-2024 \
+          -Dsonar.organization=devops-school \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   build-and-push-docker-image:
     needs: test-backend  # Exécuter seulement si test-backend est réussi
