@@ -63,6 +63,7 @@ jobs:
       - name: Build and Push HTTPD Image
         uses: docker/build-push-action@v3
         with:
-          context: ./httpd  # Path to the Dockerfile for HTTPD
+          context: ./http-server  # Path to the Dockerfile for http-server
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
           push: ${{ github.ref == 'refs/heads/main' }}
+
