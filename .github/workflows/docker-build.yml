@@ -3,7 +3,7 @@ name: Docker Build and Push
 on:
   push:
     branches:
-      - main  # Exécuter ce workflow uniquement sur la branche main
+      - main  # Exécuter ce workflow uniquement sur la branche main 
 
 jobs:
   build-and-push-docker-image:
