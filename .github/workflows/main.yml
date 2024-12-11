@@ -41,14 +41,14 @@ jobs:
 
       # Step 2: Login to DockerHub
       - name: Login to DockerHub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Step 3: Build and push backend image
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v3
         with:
           context: ./simple-api  # Path to the Dockerfile for the backend
-          tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-api:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
       # Step 4: Build and push database image
@@ -56,7 +56,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./database  # Path to the Dockerfile for the database
-          tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-database:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
       # Step 5: Build and push HTTPD image
@@ -64,5 +64,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./httpd  # Path to the Dockerfile for HTTPD
-          tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-httpd:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
           push: ${{ github.ref == 'refs/heads/main' }}
