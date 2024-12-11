@@ -26,7 +26,7 @@ jobs:
           distribution: 'temurin'
 
       # Build and test with Maven
-      - name: Build and Test with Maven
+      - name: Build, Test, and Analyze with SonarCloud
         working-directory: simple-api
         run: mvn -B verify sonar:sonar \
           -Dsonar.projectKey=devops-2024 \
