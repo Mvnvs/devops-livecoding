@@ -6,6 +6,9 @@ on:
       - main
       - develop
   pull_request:
+    branches:
+        - main
+        - develop
 
 jobs:
   test-backend:
@@ -20,7 +23,9 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
+          distribution: 'temurin'
 
       # Build and test with Maven
       - name: Build and Test with Maven
-        run: mvn clean verify --file ./simple-api/pom.xml
+        working-directory: simple-api
+        run: mvn clean verify
