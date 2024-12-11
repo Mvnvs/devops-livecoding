@@ -1,0 +1,39 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main  # Exécuter ce workflow uniquement sur la branche main
+
+jobs:
+  build-and-push-docker-image:
+    needs: test-backend  # Vérifie que le pipeline "test-backend" s'est terminé avec succès
+    runs-on: ubuntu-22.04
+
+    steps:
+      # Étape 1 : Cloner le dépôt
+      - uses: actions/checkout@v2.5.0
+
+      # Étape 2 : Construire et publier l'image Docker du backend
+      - name: Build and Push Backend Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./simple-api  # Répertoire où se trouve le Dockerfile
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      # Étape 3 : Construire et publier une autre image (exemple : database)
+      - name: Build and Push Database Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./database  # Répertoire contenant le Dockerfile pour la base de données
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      # Étape 4 : Construire et publier une image httpd (optionnel)
+      - name: Build and Push HTTPD Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./httpd  # Répertoire pour httpd
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
